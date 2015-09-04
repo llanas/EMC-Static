@@ -86,4 +86,8 @@ public class DAOFactory {
 	public UserDAO getUserDAO() {
 		return new UserDaoImpl( this );
 	}
+	
+	public ColonnesDAO getColonnesDAO() {
+		return new ColonnesDaoImpl( this );
+	}
 }

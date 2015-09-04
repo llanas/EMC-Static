@@ -1,7 +1,12 @@
 package parc.mlj.dao.config;
 
 public class DAOConfigurationException extends RuntimeException {
-    /*
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/*
      * Constructeurs
      */
     public DAOConfigurationException( String message ) {

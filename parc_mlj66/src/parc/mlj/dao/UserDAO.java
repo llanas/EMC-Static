@@ -10,4 +10,7 @@ public interface UserDAO {
 	User connecter( String login, String password ) throws DAOException;
 
 	User trouver( long id ) throws DAOException;
+
+	List<User> lister() throws DAOException;
+	
 }

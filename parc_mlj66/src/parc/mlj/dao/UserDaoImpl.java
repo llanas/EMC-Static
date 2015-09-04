@@ -4,11 +4,14 @@ import static parc.mlj.dao.config.DAOUtilitaire.fermeturesSilencieuses;
 import static parc.mlj.dao.config.DAOUtilitaire.initialisationRequetePreparee;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mysql.jdbc.ResultSetMetaData;
 
 import parc.mlj.beans.TypeProfil;
 import parc.mlj.beans.User;
@@ -17,8 +20,9 @@ import parc.mlj.dao.config.DAOException;
 
 public class UserDaoImpl implements UserDAO {
 
+	private static final String SQL_SELECT 			= "SELECT * FROM users ORDER BY id_user";
 	private static final String SQL_CONNECT			= "SELECT id_user FROM users WHERE log_user = ? AND pwd_user = ?";
-	private static final String SQL_SELECT_BY_ID	= "SELECT * FROM Client WHERE id_user = ?";
+	private static final String SQL_SELECT_BY_ID	= "SELECT * FROM users WHERE id_user = ?";
 	
 	private DAOFactory daoFactory;
 	
@@ -30,17 +34,17 @@ public class UserDaoImpl implements UserDAO {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
+		long userId = 0;
 		
 		try{
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee( connexion, SQL_CONNECT, true, log, pwd );
 			resultSet = preparedStatement.executeQuery();
-			long userId = (long) resultSet.getInt(1);
-			int statut = preparedStatement.executeUpdate();
-			if ( statut == 0 ) {
-				throw new DAOException("Echec de la connexion Utilisateur, ce login n'existe pas.");
-			} else {
+			if (resultSet.next()){
+				userId = (long) resultSet.getInt(1);	
 				return trouver( userId );
+			} else {
+				throw new DAOException("Erreur lors de la requête SQL.");
 			}
 		} catch ( SQLException e ) {
 			throw new DAOException(e);
@@ -49,6 +53,7 @@ public class UserDaoImpl implements UserDAO {
 		}
 		
 	}
+
 	
 	public User trouver( long id ) throws DAOException {
 		return trouver( SQL_SELECT_BY_ID, id);
@@ -73,6 +78,28 @@ public class UserDaoImpl implements UserDAO {
 			fermeturesSilencieuses( resultSet, preparedStatement, connexion);
 		}
 		return user;
+	}
+	
+	@Override
+	public List<User> lister() throws DAOException{
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<User> users = new ArrayList<User>();
+		
+		try{
+			connexion = daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement(SQL_SELECT);
+			resultSet = preparedStatement.executeQuery();
+			while( resultSet.next() ){
+				users.add(map(resultSet));
+			}
+		} catch(SQLException e){
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+		}
+		return users;
 	}
 
 	private User map( ResultSet resultSet ) throws SQLException {

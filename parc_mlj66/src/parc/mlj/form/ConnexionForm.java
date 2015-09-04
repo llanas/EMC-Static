@@ -27,6 +27,10 @@ public class ConnexionForm extends HttpServlet {
     private static Map<String, String> erreurs = new HashMap<String, String>();
     private UserDAO userDao;
     
+    public ConnexionForm(){
+    	
+    }
+    
     public ConnexionForm( UserDAO userDao){
     	this.userDao = userDao;
     }
@@ -40,8 +44,11 @@ public class ConnexionForm extends HttpServlet {
     }
     
     public User ConnexionUser( HttpServletRequest request) {
-    	String login = request.getParameter(CHAMP_LOGIN);
-    	String password = request.getParameter(CHAMP_PASSWORD);
+    	
+    	erreurs.clear();
+    	
+    	String login = getValeurChamp(request, CHAMP_LOGIN);
+    	String password = getValeurChamp(request, CHAMP_PASSWORD);
     	
     	User user = new User();
     	
@@ -50,14 +57,14 @@ public class ConnexionForm extends HttpServlet {
     
     	try{
     		if(erreurs.isEmpty()){
-    			userDao.connecter(login, password);
+    			user = userDao.connecter(login, password);
     			resultat = "Succès de la connexion!";
     		} else {
     			resultat = "Erreur lors de la connexion.";
     		}
     	} catch (DAOException e){
     		setErreur("Imprevu", "Erreur imprevu lors de la connexion de l'utilisateur");
-    		resultat = "Echec de la connexion de l'utilisateur.";
+    		resultat = "Identifiant ou mot de passe invalide.";
     		e.printStackTrace();
     	}
     	
@@ -96,6 +103,9 @@ public class ConnexionForm extends HttpServlet {
 	}
 
 	private static String getValeurChamp( HttpServletRequest request, String champ){
+		if (champ == null) {
+			champ = "";
+		}
 		String valeur = request.getParameter( champ );
 		if( valeur == null || valeur.trim().length() == 0){
 			return null;

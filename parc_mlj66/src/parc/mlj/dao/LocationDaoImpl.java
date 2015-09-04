@@ -16,7 +16,7 @@ import parc.mlj.dao.config.DAOException;
 
 public class LocationDaoImpl implements LocationDAO {
 
-	private static final String SQL_SELECT_BY_ID	= "SELECT * FROM location WHERE id_location = ?";
+	private static final String SQL_SELECT_BY_ID	= "SELECT * FROM locations WHERE id_location = ?";
 	
 	private DAOFactory daoFactory;
 	

@@ -1,5 +1,7 @@
 package parc.mlj.beans;
 
+import java.util.List;
+
 public class User {
 
 	private Long id;

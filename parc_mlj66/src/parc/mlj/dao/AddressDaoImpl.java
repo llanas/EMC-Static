@@ -57,8 +57,9 @@ public class AddressDaoImpl implements AddressDAO {
 		PartnerDAO partnerDAO = daoFactory.getPartnerDAO();
 		address.setPartner( partnerDAO.trouver( resultSet.getLong( "partner_address" )));
 		address.setName( resultSet.getString( "name_address" ));
-		address.setNum( resultSet.getLong( "n_address"));
-		address.setTypeRoad( resultSet.getString( "road_address" ));
+		address.setNum( resultSet.getLong( "n_address" ));
+		address.setRoad( resultSet.getString( "road_address" ));
+		address.setTypeRoad( resultSet.getString( "type_road_address" ));
 		address.setCity( resultSet.getString( "city_address" ));
 		address.setCode( resultSet.getLong( "code_address" ));
 		address.setCountry( resultSet.getString( "country_address" ));

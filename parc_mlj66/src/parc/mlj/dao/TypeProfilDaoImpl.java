@@ -15,7 +15,7 @@ import parc.mlj.dao.config.DAOException;
 
 public class TypeProfilDaoImpl implements TypeProfilDAO {
 	
-	private static final String SQL_SELECT_FROM_ID	= "SELECT * FROM type_profil WHERE id_type_profil = ?";
+	private static final String SQL_SELECT_FROM_ID	= "SELECT * FROM type_profil WHERE id_profil = ?";
 
 	private DAOFactory daoFactory;
 	
@@ -51,9 +51,9 @@ public class TypeProfilDaoImpl implements TypeProfilDAO {
 	private TypeProfil map(ResultSet resultSet) throws SQLException {
 		
 		TypeProfil typeProfil = new TypeProfil();
-		typeProfil.setId( resultSet.getLong( "id_type_profil" ));
-		typeProfil.setName( resultSet.getString( "name_type_profil" ));
-		typeProfil.setRight( resultSet.getInt( "right_type_profil" ));
+		typeProfil.setId( resultSet.getLong( "id_profil" ));
+		typeProfil.setName( resultSet.getString( "name_profil" ));
+		typeProfil.setRight( resultSet.getInt( "right_profil" ));
 		return typeProfil;
 	}
 	

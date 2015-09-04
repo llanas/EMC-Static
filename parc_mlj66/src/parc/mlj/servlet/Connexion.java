@@ -23,7 +23,7 @@ public class Connexion extends HttpServlet {
 	public static final String ATT_USER_SESSION = "sessionUser";
 	public static final String ATT_FORM = "form";
 	public static final String VUE_SUCCES = "/WEB-INF/profil.jsp";
-	public static final String VUE_ECHEC = "/WEB-INF/connexion.jsp";
+	public static final String VUE_ECHEC = "/WEB-INF/accueil.jsp";
        
     private UserDAO userDao;
     
