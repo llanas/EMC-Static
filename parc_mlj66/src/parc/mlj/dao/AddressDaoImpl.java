@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import parc.mlj.beans.Address;
+import parc.mlj.beans.User;
 import parc.mlj.dao.config.DAOException;
 
 public class AddressDaoImpl implements AddressDAO {
 
 	private static final String SQL_SELECT_BY_ID = "SELECT * FROM address WHERE id_address = ?";
+	private static final String SQL_SELECT 		 = "SELECT * FROM address ORDER BY id_address";
 	
 	private DAOFactory daoFactory;
 	
@@ -49,6 +51,27 @@ public class AddressDaoImpl implements AddressDAO {
 		return address;
 	}
 	
+	public List<Address> lister() throws DAOException{
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Address> addresses = new ArrayList<Address>();
+		
+		try{
+			connexion = daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement(SQL_SELECT);
+			resultSet = preparedStatement.executeQuery();
+			while( resultSet.next() ){
+				addresses.add(map(resultSet));
+			}
+		} catch(SQLException e){
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+		}
+		return addresses;
+	}
+	
 	private Address map( ResultSet resultSet ) throws SQLException {
 		
 		Address address = new Address();
@@ -56,6 +79,7 @@ public class AddressDaoImpl implements AddressDAO {
 		
 		PartnerDAO partnerDAO = daoFactory.getPartnerDAO();
 		address.setPartner( partnerDAO.trouver( resultSet.getLong( "partner_address" )));
+		
 		address.setName( resultSet.getString( "name_address" ));
 		address.setNum( resultSet.getLong( "n_address" ));
 		address.setRoad( resultSet.getString( "road_address" ));

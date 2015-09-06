@@ -1,7 +1,11 @@
 package parc.mlj.beans;
 
-public class TypeProfil {
+public class TypeProfil implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String name;
 	private int right;

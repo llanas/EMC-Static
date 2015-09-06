@@ -1,7 +1,11 @@
 package parc.mlj.beans;
 
-public class Address {
+public class Address implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Long id;
 	public Partner partner;
 	public String name;

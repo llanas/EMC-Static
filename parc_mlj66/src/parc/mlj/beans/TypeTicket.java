@@ -1,7 +1,11 @@
 package parc.mlj.beans;
 
-public class TypeTicket {
+public class TypeTicket implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String name;
 	private String stat;

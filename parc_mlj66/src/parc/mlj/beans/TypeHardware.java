@@ -1,7 +1,11 @@
 package parc.mlj.beans;
 
-public class TypeHardware {
+public class TypeHardware implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Long id;
 	public String name;
 	

@@ -6,4 +6,5 @@ import parc.mlj.dao.config.DAOException;
 public interface TypeProfilDAO {
 
 	TypeProfil trouver( long id ) throws DAOException;
+	
 }

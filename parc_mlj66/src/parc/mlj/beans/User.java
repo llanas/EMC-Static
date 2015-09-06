@@ -1,9 +1,11 @@
 package parc.mlj.beans;
 
-import java.util.List;
+public class User implements java.io.Serializable {
 
-public class User {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private TypeProfil profil;
 	private Location location;

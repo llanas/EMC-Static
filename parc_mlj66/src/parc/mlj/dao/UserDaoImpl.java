@@ -23,11 +23,42 @@ public class UserDaoImpl implements UserDAO {
 	private static final String SQL_SELECT 			= "SELECT * FROM users ORDER BY id_user";
 	private static final String SQL_CONNECT			= "SELECT id_user FROM users WHERE log_user = ? AND pwd_user = ?";
 	private static final String SQL_SELECT_BY_ID	= "SELECT * FROM users WHERE id_user = ?";
+	private static final String SQL_INSERT 			= "INSERT INTO users (profil_user, location_user, gender_user, first_name_user, last_name_user, log_user, pwd_user,  function_user, phone_user) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private DAOFactory daoFactory;
 	
 	UserDaoImpl( DAOFactory daoFactory ){
 		this.daoFactory = daoFactory;
+	}
+	
+	@Override
+	public void creer( User user ) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet valeurAutoGeneree = null;
+		
+		try{
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, true,
+					user.getProfil(), user.getLocation(), user.getGender(),
+					user.getFirstName(), user.getLastName(),
+					user.getLogin(), user.getPassword(),
+					user.getFunction(), user.getPhone() );
+			int statut = preparedStatement.executeUpdate();
+			if( statut == 0 ){
+				throw new DAOException("Echec de la création de l'utilisateur.");
+			}
+			valeurAutoGeneree = preparedStatement.getGeneratedKeys();
+			if( valeurAutoGeneree.next() ){
+				user.setId(valeurAutoGeneree.getLong(1));
+			} else {
+				throw new DAOException("Echec de la création de l'utilisateur, aucun ID auto-généré retourné.");
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(valeurAutoGeneree, preparedStatement, connexion);
+		}
 	}
 	
 	public User connecter( String log, String pwd ) {
@@ -51,7 +82,6 @@ public class UserDaoImpl implements UserDAO {
 		} finally {
 			fermeturesSilencieuses( preparedStatement, connexion );
 		}
-		
 	}
 
 	

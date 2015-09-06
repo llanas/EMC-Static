@@ -12,5 +12,7 @@ public interface UserDAO {
 	User trouver( long id ) throws DAOException;
 
 	List<User> lister() throws DAOException;
+
+	void creer(User user);
 	
 }

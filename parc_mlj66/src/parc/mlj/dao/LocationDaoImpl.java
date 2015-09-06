@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import parc.mlj.beans.Location;
+import parc.mlj.beans.User;
 import parc.mlj.dao.config.DAOException;
 
 
 public class LocationDaoImpl implements LocationDAO {
 
 	private static final String SQL_SELECT_BY_ID	= "SELECT * FROM locations WHERE id_location = ?";
+	private static final String SQL_SELECT 			= "SELECT * FROM locations ORDER BY id_location";
 	
 	private DAOFactory daoFactory;
 	
@@ -47,6 +49,27 @@ public class LocationDaoImpl implements LocationDAO {
 			fermeturesSilencieuses( resultSet, preparedStatement, connexion);
 		}
 		return location;
+	}
+	
+	public List<Location> lister() throws DAOException{
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Location> locations = new ArrayList<Location>();
+		
+		try{
+			connexion = daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement(SQL_SELECT);
+			resultSet = preparedStatement.executeQuery();
+			while( resultSet.next() ){
+				locations.add(map(resultSet));
+			}
+		} catch(SQLException e){
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+		}
+		return locations;
 	}
 	
 	private Location map( ResultSet resultSet ) throws SQLException{
