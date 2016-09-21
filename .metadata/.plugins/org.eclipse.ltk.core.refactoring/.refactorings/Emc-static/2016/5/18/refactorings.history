@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Emc-static/WebContent/WEB-INF/athentification.jsp&apos; to &apos;authentification.jsp&apos;" description="Rename resource &apos;athentification.jsp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="WebContent/WEB-INF/athentification.jsp" name="authentification.jsp" stamp="1462548509266" updateReferences="true"/>
+</session>

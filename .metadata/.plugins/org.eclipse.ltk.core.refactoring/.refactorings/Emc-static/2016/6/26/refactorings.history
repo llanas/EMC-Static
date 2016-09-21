@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;dao.DAOFactory.getConnectio()&apos; to &apos;getConnection&apos;&#x0D;&#x0A;- Original project: &apos;Emc-static&apos;&#x0D;&#x0A;- Original element: &apos;dao.DAOFactory.getConnectio()&apos;&#x0D;&#x0A;- Renamed element: &apos;dao.DAOFactory.getConnection()&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;getConnectio&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;dao{DAOFactory.java[DAOFactory~getConnectio" name="getConnection" references="true" stamp="1467134545095" version="1.0"/>
+</session>
